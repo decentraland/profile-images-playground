@@ -12,12 +12,12 @@
   "dependencies": {
     "@dcl/crypto": "^3.4.5",
     "@dcl/schemas": "^13.8.2",
-    "@headlessui/react": "^1.7.18",
-    "@heroicons/react": "^2.1.1",
+    "@headlessui/react": "^1.7.19",
+    "@heroicons/react": "^2.1.5",
     "@microsoft/fetch-event-source": "^2.0.1",
-    "decentraland-connect": "^6.0.0",
+    "decentraland-connect": "^6.5.0",
     "decentraland-crypto-fetch": "^2.0.1",
-    "next": "14.1.1",
+    "next": "14.2.7",
     "react": "^18",
     "react-dom": "^18"
   },
@@ -26,10 +26,10 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "autoprefixer": "^10.4.17",
-    "eslint-config-next": "14.1.0",
+    "autoprefixer": "^10.4.20",
+    "eslint-config-next": "14.2.7",
     "postcss": "^8",
-    "tailwindcss": "^3.4.1",
+    "tailwindcss": "^3.4.10",
     "typescript": "^5"
   }
 }

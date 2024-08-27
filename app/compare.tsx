@@ -4,23 +4,6 @@ import { Fragment, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 
-const problematicEntityIds: string[] = [
-  'bafkreiarkmiqdnx7sydzf27gprlt6cxxpwy2373c4rklwe4nlrzlmbgs7a',
-  'bafkreieffhchjewsaenctrkgfk46lg3qaff3vh7bf5ou6fxdn47uwidwm4',
-  'bafkreibmgy4rlpt6xrmsd7rrbx77m7hfofqi5qzwmmy7emfecejsrhgec4',
-  'bafkreibkjtgz3s7golypk5xx2md7ewfo3agh47e2yp5b2hnmnftshder3u',
-  'bafkreig3ic7lmodoydmm6pobzqkfvltvu6a4tvokod77tecbrmjsxszxna',
-  'bafkreihud7x7cackcwcclmubxcqheyrcqteqrpdqxwjxjogq6z5kf54254',
-  'bafkreihrivpeyizwgtzj7z3uniucn3f5ukvpfuqqg4lme57aevemo3dmg4',
-  'bafkreigqdzstqdyot6ygv26a4qfucynmpng7hggbabtc7hmir4wp7kfmoa',
-  'bafkreihon64r73t7syahsgr7elf7kxfzb5ys6kxgsucjwetuvs7zdfvvje',
-  'bafkreif3rpvon6nfd2tvgo57u225snkfneupghpwcswsg7j6lfjxe2afnu',
-  'bafkreiak3gcqpjbcblelpoanxwfaclejhtf4y54y3kk7ngfhishxcrfh5u',
-  'bafkreid3pq53yjb3acbkqmsbk4eknnphapdpa344d7ng46dlnctxmmgkru',
-  'bafkreidaqbxrgb2oljddyzizhaqddq7j42dbyfqxv6hdfd6wkrtla5tbei', // Se ven los ojos a través de la máscara
-  'bafkreihmn6teertrob5praqvtkc6hall63gqvpqd3numjzuylyywzmekpm'
-]
-
 const catalystBaseUrl = 'https://peer.decentraland.org'
 const cdnBaseUrl = 'https://profile-images-bucket-43d0c58.decentraland.org/v1/entities'
 
@@ -73,7 +56,7 @@ export default function Compare() {
   }
 
   useEffect(() => {
-    loadProfiles(problematicEntityIds)
+    loadProfiles()
   }, [])
 
   return (
@@ -89,12 +72,6 @@ export default function Compare() {
             onClick={() => loadProfiles()}
           >
             Recent deployments
-          </button>
-          <button
-            className="h-8 rounded bg-indigo-600 px-2 py-1 font-mono text-xs font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            onClick={() => loadProfiles(problematicEntityIds)}
-          >
-            Profiles with issues
           </button>
           <button
             className="h-8 rounded bg-indigo-600 px-2 py-1 font-mono text-xs font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"

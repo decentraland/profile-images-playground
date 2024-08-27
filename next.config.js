@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     output: 'export',
-    basePath: '/mariano-playground',
-    assetPrefix: '/mariano-playground/',
+    basePath: '/profile-images-playground',
+    assetPrefix: '/profile-images-playground/',
 }
 
 module.exports = nextConfig

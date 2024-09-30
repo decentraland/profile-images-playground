@@ -1,8 +1,10 @@
 'use client'
 
-import { Fragment, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
+import { Fragment, useEffect, useRef, useState } from 'react'
+
+import { PreviewMessageType, sendMessage } from '@dcl/schemas/dist/dapps/preview'
 
 const catalystBaseUrl = 'https://peer.decentraland.org'
 const cdnBaseUrl = 'https://profile-images-bucket-43d0c58.decentraland.org/v1/entities'
@@ -28,6 +30,7 @@ export default function Compare() {
   const [entities, setEntities] = useState<EntityData[]>([])
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
   const [slideOverOpen, setSlideOver] = useState<EntityData | null>(null)
+  const avatarPreviewRef = useRef(null)
 
   function loadProfiles(entityIds: string[] = []) {
     fetch(
@@ -56,8 +59,22 @@ export default function Compare() {
   }
 
   useEffect(() => {
+    console.log('wmeifwemofmwieofmwioep fiweo')
     loadProfiles()
   }, [])
+
+  useEffect(() => {
+    if (slideOverOpen?.address) {
+      const refWindow = (avatarPreviewRef.current as any)?.contentWindow
+      if (refWindow) {
+        sendMessage(refWindow, PreviewMessageType.UPDATE, {
+          options: {
+            profile: slideOverOpen.id
+          }
+        })
+      }
+    }
+  }, [slideOverOpen])
 
   return (
     <div className="bg-white">
@@ -228,62 +245,74 @@ export default function Compare() {
         </Dialog>
       </Transition.Root>
 
-      <div className="text-sm m-4">
-        {entities.map((entityData) => (
-          <div key={entityData.id} className="mt-6 grid gap-x-2 grid-cols-4 text-gray-500 border-2 p-2">
-            <div className="col-span-4 text-xs text-center">
-              <span
-                className="text-indigo-600 hover:text-indigo-800 hover:cursor-pointer"
-                onClick={() => setSlideOver(entityData)}
-              >
-                {' '}
-                {entityData.id}
-              </span>{' '}
-              -{' '}
-              <a
-                href={`https://decentraland.org/profile/accounts/${entityData.address}`}
-                target="_blank"
-                className="text-indigo-600"
-              >
-                {entityData.address}
-              </a>
-            </div>
-
-            <div className="col-span-1 text-xs text-center">Body (Catalyst)</div>
-            <div className="col-span-1 text-xs text-center">Body (CDN)</div>
-            <div className="col-span-1 text-xs text-center">Face (Catalyst)</div>
-            <div className="col-span-1 text-xs text-center">Face (CDN)</div>
-
-            <div className="col-span-1 text-center">
-              <div className="overflow-hidden h-full w-full">
-                <img
-                  className="object-cover border"
-                  src={`${catalystBaseUrl}/content/contents/${entityData.body}`}
-                  alt=""
-                />
-              </div>
-            </div>
-            <div className="col-span-1 text-center">
-              <div className="overflow-hidden h-full w-full">
-                <img className="object-cover border" src={`${cdnBaseUrl}/${entityData.id}/body.png`} alt="" />
-              </div>
-            </div>
-            <div className="col-span-1 text-center">
-              <div className="overflow-hidden h-full w-full">
-                <img
-                  className="object-cover border"
-                  src={`${catalystBaseUrl}/content/contents/${entityData.face}`}
-                  alt=""
-                />
-              </div>
-            </div>
-            <div className="col-span-1 text-center">
-              <div className="overflow-hidden h-full w-full">
-                <img className="object-cover border" src={`${cdnBaseUrl}/${entityData.id}/face.png`} alt="" />
-              </div>
-            </div>
+      <div className="flex">
+        {entities.length > 0 && (
+          <div className="shrink-0" style={{ height: '600px', width: '300px' }}>
+            <iframe
+              width={'100%'}
+              ref={avatarPreviewRef}
+              height={600}
+              src="https://wearable-preview.decentraland.org"
+            />
           </div>
-        ))}
+        )}
+        <div className="text-sm grow" style={{ maxHeight: '70vh', overflowY: 'auto' }}>
+          {entities.map((entityData) => (
+            <div key={entityData.id} className="mt-6 grid gap-x-2 grid-cols-4 text-gray-500 border-2 p-2">
+              <div className="col-span-4 text-xs text-center">
+                <span
+                  className="text-indigo-600 hover:text-indigo-800 hover:cursor-pointer"
+                  onClick={() => setSlideOver(entityData)}
+                >
+                  {' '}
+                  {entityData.id}
+                </span>{' '}
+                -{' '}
+                <a
+                  href={`https://decentraland.org/profile/accounts/${entityData.address}`}
+                  target="_blank"
+                  className="text-indigo-600"
+                >
+                  {entityData.address}
+                </a>
+              </div>
+
+              <div className="col-span-1 text-xs text-center">Body (Catalyst)</div>
+              <div className="col-span-1 text-xs text-center">Body (CDN)</div>
+              <div className="col-span-1 text-xs text-center">Face (Catalyst)</div>
+              <div className="col-span-1 text-xs text-center">Face (CDN)</div>
+
+              <div className="col-span-1 text-center">
+                <div className="overflow-hidden h-full w-full">
+                  <img
+                    className="object-cover border"
+                    src={`${catalystBaseUrl}/content/contents/${entityData.body}`}
+                    alt=""
+                  />
+                </div>
+              </div>
+              <div className="col-span-1 text-center">
+                <div className="overflow-hidden h-full w-full">
+                  <img className="object-cover border" src={`${cdnBaseUrl}/${entityData.id}/body.png`} alt="" />
+                </div>
+              </div>
+              <div className="col-span-1 text-center">
+                <div className="overflow-hidden h-full w-full">
+                  <img
+                    className="object-cover border"
+                    src={`${catalystBaseUrl}/content/contents/${entityData.face}`}
+                    alt=""
+                  />
+                </div>
+              </div>
+              <div className="col-span-1 text-center">
+                <div className="overflow-hidden h-full w-full">
+                  <img className="object-cover border" src={`${cdnBaseUrl}/${entityData.id}/face.png`} alt="" />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   )

@@ -10,7 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@dcl/schemas": "^14.0.0",
+    "@dcl/schemas": "^14.1.0",
     "@headlessui/react": "^1.7.19",
     "@heroicons/react": "^2.1.5",
     "next": "14.2.7",
